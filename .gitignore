@@ -1,0 +1,8 @@
+# dotenv files (do NOT commit secrets)
+.env
+D4F_back/.env
+D4F_front/.env
+
+# optionnel, setting de vscode pour afficher le .git 
+#(optique d'apprentissag donc je veux voir le contenu)
+.vscode/
