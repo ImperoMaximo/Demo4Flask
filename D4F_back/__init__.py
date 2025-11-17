@@ -56,6 +56,24 @@ db.init_app(app)
 # Initialize helper utilities which rely on app.config
 flaskSqlAlchemyUtils = FlaskSqlAlchemyUtils(app)
 
+# Register API blueprints and import models inside app context so SQLAlchemy
+# # sees the model definitions when create_all() or migrations run.
+# with app.app_context():
+#     # import models to register them with SQLAlchemy
+#     try:
+#         from . import models  # noqa: F401
+#     except Exception:
+#         # import failure should not break app creation; will surface on use
+#         pass
+
+#     # register blueprints
+#     try:
+#         from .controllers.submission_controller import bp as submissions_bp
+#         app.register_blueprint(submissions_bp)
+#     except Exception:
+#         # if the controllers folder is missing or has errors, keep app running
+#         pass
+
 
 @app.route("/")
 def hello_world():

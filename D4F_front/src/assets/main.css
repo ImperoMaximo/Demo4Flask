@@ -1,12 +1,6 @@
 @import './base.css';
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
-}
-
+/* Gardons ton style de liens */
 a,
 .green {
   text-decoration: none;
@@ -21,15 +15,15 @@ a,
   }
 }
 
+/* ❗ Corrigé : NE TOUCHE PAS à layout global du body */
 @media (min-width: 1024px) {
+  /* Supprimé : display:flex + place-items */
   body {
-    display: flex;
-    place-items: center;
+    /* Vuetify gère déjà le layout */
   }
 
+  /* ❗ Supprimé complètement : grid + padding */
   #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+    /* Vuetify doit pouvoir occuper 100% de la largeur */
   }
 }
