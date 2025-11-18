@@ -1,23 +1,21 @@
 <template>
   <v-app-bar app fixed flat color="blue lighten-1" class="px-4">
-    <!-- Titre de la page (clic -> home) -->
-    <router-link to="/" style="text-decoration:none; color:inherit;">
-      <v-toolbar-title class="text-white" style="cursor: pointer;">
+    <v-spacer></v-spacer>
+    <router-link to="/" class="title-link nav-btn center-title" style="text-decoration:none; color:inherit;">
+      <v-toolbar-title class="text-white brand" style="cursor: pointer;">
         {{ title }}
       </v-toolbar-title>
     </router-link>
 
     <v-spacer></v-spacer>
 
-    <!-- Icône panier -> shop -->
-    <router-link to="/shop" style="text-decoration:none; color:inherit;">
+    <router-link to="/shop" class="nav-btn" style="text-decoration:none; color:inherit;">
       <v-btn icon>
         <v-icon :icon="mdiCart" />
       </v-btn>
     </router-link>
 
-    <!-- Icône livraison -> commands -->
-    <router-link to="/commands" style="text-decoration:none; color:inherit;">
+    <router-link to="/commands" class="nav-btn" style="text-decoration:none; color:inherit;">
       <v-btn icon>
         <v-icon :icon="mdiTruck" />
       </v-btn>
@@ -35,3 +33,87 @@ const props = defineProps({
   },
 })
 </script>
+
+<style scoped>
+/* Title sizing and centering */
+.title-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 1 auto;
+}
+
+.brand {
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+}
+
+/* absolute center over the bar while keeping icons to the right */
+.v-app-bar {
+  position: relative;
+}
+
+.center-title {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  white-space: nowrap;
+  /* keep pointer events so title remains clickable, but only on the text area */
+}
+
+@media (max-width: 600px) {
+  .brand {
+    font-size: 1.1rem;
+  }
+}
+
+/* Stronger hover for navbar icon buttons */
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav-btn .v-btn {
+  transition: transform 0.12s ease, background-color 0.12s ease, box-shadow 0.12s ease;
+  border-radius: 8px;
+}
+
+.nav-btn .v-btn:hover {
+  transform: translateY(-3px) scale(1.08);
+  background-color: rgba(255,255,255,0.12) !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+}
+
+.nav-btn .v-btn:active {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+
+/* Apply same hover/active visual style to the centered title */
+.title-link,
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+}
+
+.title-link .brand {
+  transition: transform 0.12s ease, background-color 0.12s ease, box-shadow 0.12s ease;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+.title-link:hover .brand {
+  transform: translateY(-3px) scale(1.08);
+  background-color: rgba(255,255,255,0.12) !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+}
+
+.title-link:active .brand {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+</style>

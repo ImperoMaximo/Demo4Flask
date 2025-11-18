@@ -22,11 +22,6 @@ const router = createRouter({
       path: '/commands',
       name: 'commands',
       component: CommandsView
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: () => import('../views/AboutView.vue')
     }
   ]
 })

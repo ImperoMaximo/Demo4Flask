@@ -1,6 +1,5 @@
 @import './base.css';
 
-/* Gardons ton style de liens */
 a,
 .green {
   text-decoration: none;
@@ -12,18 +11,5 @@ a,
 @media (hover: hover) {
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-/* ❗ Corrigé : NE TOUCHE PAS à layout global du body */
-@media (min-width: 1024px) {
-  /* Supprimé : display:flex + place-items */
-  body {
-    /* Vuetify gère déjà le layout */
-  }
-
-  /* ❗ Supprimé complètement : grid + padding */
-  #app {
-    /* Vuetify doit pouvoir occuper 100% de la largeur */
   }
 }
