@@ -2,21 +2,21 @@
   <v-app-bar app fixed flat color="blue lighten-1" class="px-4">
     <v-spacer></v-spacer>
     <router-link to="/" class="title-link nav-btn center-title" style="text-decoration:none; color:inherit;">
-      <v-toolbar-title class="text-white brand" style="cursor: pointer;">
+      <v-btn text title="Accueil" class="brand title-btn" style="cursor: pointer;" aria-label="Accueil">
         {{ title }}
-      </v-toolbar-title>
+      </v-btn>
     </router-link>
 
     <v-spacer></v-spacer>
 
     <router-link to="/shop" class="nav-btn" style="text-decoration:none; color:inherit;">
-      <v-btn icon>
+      <v-btn icon title="Shop">
         <v-icon :icon="mdiCart" />
       </v-btn>
     </router-link>
 
     <router-link to="/commands" class="nav-btn" style="text-decoration:none; color:inherit;">
-      <v-btn icon>
+      <v-btn icon title="Commandes">
         <v-icon :icon="mdiTruck" />
       </v-btn>
     </router-link>
@@ -50,7 +50,6 @@ const props = defineProps({
   text-align: center;
 }
 
-/* absolute center over the bar while keeping icons to the right */
 .v-app-bar {
   position: relative;
 }
@@ -62,7 +61,6 @@ const props = defineProps({
   transform: translate(-50%, -50%);
   z-index: 5;
   white-space: nowrap;
-  /* keep pointer events so title remains clickable, but only on the text area */
 }
 
 @media (max-width: 600px) {
@@ -93,12 +91,7 @@ const props = defineProps({
   box-shadow: 0 4px 10px rgba(0,0,0,0.12);
 }
 
-/* Apply same hover/active visual style to the centered title */
-.title-link,
-.nav-btn {
-  display: inline-flex;
-  align-items: center;
-}
+/* Apply same hover/active visual style to the centered items */
 
 .title-link .brand {
   transition: transform 0.12s ease, background-color 0.12s ease, box-shadow 0.12s ease;
