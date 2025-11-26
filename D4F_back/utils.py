@@ -3,6 +3,9 @@ import os
 from D4F_back.db import db
 from D4F_back.service.init_service import *
 
+def est_un_nouvel_objet(bool_existance, instance_objet):
+    return {"is_new":bool_existance, 'instance':instance_objet}
+
 class FlaskSqlAlchemyUtils:
 
     def __init__(self, app):
@@ -28,16 +31,9 @@ class FlaskSqlAlchemyUtils:
 
     def init_db(self,):
         with self.app.app_context():
-            self.create_new_schema()
             self.db.create_all()
+            
 
     def update_db_with_new_element(self):
         with self.app.app_context():
             self.db.create_all()
-
-    def create_new_schema(self):
-        with self.app.app_context():
-            # creation d'un nouveau schema
-            db.session.execute(text("CREATE SCHEMA IF NOT EXISTS D4F"))
-            # appliquer la commande sql
-            db.session.commit()

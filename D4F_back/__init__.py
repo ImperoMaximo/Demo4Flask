@@ -2,7 +2,9 @@ from flask import Flask, jsonify
 from flask_restful import Api
 from .db import db
 from sqlalchemy import text
-from .service.init_service import *
+from D4F_back.service.init_service import *
+from D4F_back.controller.materiel_controller import *
+from D4F_back.controller.commande_controller import *
 from .utils import FlaskSqlAlchemyUtils
 
 import os
@@ -23,11 +25,6 @@ def _get_env(*names, default=None):
 
 
 def build_database_uri():
-    # prefer an explicit DATABASE_URL if provided
-    full = _get_env("DATABASE_URL", "DATABASE_URI")
-    if full:
-        return full
-
     host = _get_env("FLASK_db_host")
     port = _get_env("FLASK_db_port")
     name = _get_env("FLASK_db_name")
@@ -55,6 +52,7 @@ db.init_app(app)
 
 # Initialize helper utilities which rely on app.config
 flaskSqlAlchemyUtils = FlaskSqlAlchemyUtils(app)
+materiel_service = MaterielService(app)
 
 # Register API blueprints and import models inside app context so SQLAlchemy
 # # sees the model definitions when create_all() or migrations run.
@@ -87,7 +85,19 @@ def init_db():      # initialisation de la db
 @app.route("/update_db")
 def update_db():    # initialisation de la db
     flaskSqlAlchemyUtils.update_db_with_new_element()
+    materiel_service.import_materiels_from_csv('materiel.csv')
     return f"DB updated, Backend D4F running on dev environement"
 
+api.add_resource(
+    materielAPI,
+    "/materiel",
+    "/materiel/<string:materiel_id>",
+)
+api.add_resource(AllMaterielAPI, "/all_materiel")
 
-
+api.add_resource(
+    commandeAPI,
+    "/commande",
+    "/commande/<string:commande_id>",
+)
+api.add_resource(AllCommandeAPI, "/all_commande")
