@@ -11,10 +11,9 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 
-# Load .env (if present) from this package folder
+#env
 env_path = Path(__file__).parent / ".env"
 load_dotenv(env_path)
-
 
 def _get_env(*names, default=None):
     for n in names:
@@ -35,11 +34,13 @@ def build_database_uri():
 
 appName = "D4Fapp"
 app = Flask(__name__)
+from flask_cors import CORS
+
+# CORS pour gerer les origines des demandes et eviter des problemes de sécu/compatibilité
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 # utiliser l'api fournis par flask au lieu des les réimplémenter
 api = Api(app)
 
-# Core config populated from environment/.env
-app.config["SECRET_KEY"] = _get_env("SECRET_KEY")
 app.config["SQLALCHEMY_DATABASE_URI"] = build_database_uri()
 # Prefer False (less overhead) unless explicitly enabled
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -47,31 +48,13 @@ app.config.setdefault(50)
 
 app.config["FLASK_RUN_PORT"] = int(_get_env("FLASK_RUN_PORT"))
 
-# Initialize DB extension (db is a SQLAlchemy instance imported from D4F_back.db)
 db.init_app(app)
 
-# Initialize helper utilities which rely on app.config
 flaskSqlAlchemyUtils = FlaskSqlAlchemyUtils(app)
+# init du service util à l'import via csv de materiels
 materiel_service = MaterielService(app)
 
-# Register API blueprints and import models inside app context so SQLAlchemy
-# # sees the model definitions when create_all() or migrations run.
-# with app.app_context():
-#     # import models to register them with SQLAlchemy
-#     try:
-#         from . import models  # noqa: F401
-#     except Exception:
-#         # import failure should not break app creation; will surface on use
-#         pass
-
-#     # register blueprints
-#     try:
-#         from .controllers.submission_controller import bp as submissions_bp
-#         app.register_blueprint(submissions_bp)
-#     except Exception:
-#         # if the controllers folder is missing or has errors, keep app running
-#         pass
-
+# routes pour les pages en dur
 
 @app.route("/")
 def hello_world():
@@ -87,6 +70,8 @@ def update_db():    # initialisation de la db
     flaskSqlAlchemyUtils.update_db_with_new_element()
     materiel_service.import_materiels_from_csv('materiel.csv')
     return f"DB updated, Backend D4F running on dev environement"
+
+# api rest pour les autres -> juste manipuler des json
 
 api.add_resource(
     materielAPI,

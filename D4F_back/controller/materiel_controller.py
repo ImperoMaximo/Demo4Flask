@@ -41,7 +41,7 @@ class materielAPI(Resource):
 
     def get(self, materiel_id):
         materiel = materiel_service.get_materiel_by_id(materiel_id)
-        return {"nom": materiel.nom, "id": materiel.id}
+        return {"nom": materiel.nom, "id": materiel.id, "description": materiel.description, "fournisseur": materiel.fournisseur}
 
 
 class AllMaterielAPI(Resource):

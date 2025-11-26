@@ -11,7 +11,7 @@ class commandeAPI(Resource):
     #nouvelle commande = creer
     def post(self):
         data = request.get_json()
-        # Validate input
+
         materiel_id = data.get("materiel_id")
         if not materiel_id:
             return {"error": "materiel_id is required"}, 400
@@ -28,16 +28,15 @@ class commandeAPI(Resource):
         date_emission = data.get("date_emission")
         commentaire = data.get("commentaire_emission")
 
-        # create and return created resource
-        new_commande = commande_service.create_commande(
+        new_commande_id = commande_service.create_commande(
             materiel=materiel,
             nombre_piece_commande=nombre_piece,
             date_emission=date_emission,
             commentaire_emission=commentaire,
         )
-        if new_commande is None:
+        if not new_commande_id:
             return {"error": "failed to create commande"}, 500
-        return {"message": "commande created", "id": new_commande.id}, 201
+        return {"message": "commande created", "id": new_commande_id}, 201
 
     # lire une commande
     def get(self, commande_id):
@@ -52,7 +51,7 @@ class commandeAPI(Resource):
             "date_emission": str(commande.date_emission),
             "commentaire_emission": commande.commentaire_emission,
         }
-
+    # modifier/update une commande
     def put(self, commande_id):
         data = request.get_json()
 
@@ -73,7 +72,18 @@ class commandeAPI(Resource):
         if isinstance(updated, tuple) and updated[1] == 404:
             return updated
 
-        return {"message": "commande updated", "id": updated.id}
+        if isinstance(updated, dict) and updated.get('deleted'):
+            return {"message": "commande deleted", "id": updated.get('id')}, 200
+
+        if isinstance(updated, dict):
+            return {"message": "commande updated", "id": updated.get('id'), "nombrePiece": updated.get('nombrePiece')}, 200
+
+        return {"message": "commande updated"}, 200
+
+    def delete(self, commande_id):
+        # suppr a commande
+        result = commande_service.delete(commande_id)
+        return result
         
 class AllCommandeAPI(Resource):
     def get(self):

@@ -78,14 +78,16 @@ class MaterielService:
 
                     csvFile = csv.reader(file,  delimiter=';',)
 
+                    # ne prends pas en compte el header du csv
+                    next(csvFile, None)
+
                     for line in csvFile:
                         lineSplit = line
 
-                        # Expect exact format: nom;description;fournisseur
+                        # espere exacte format du csv: nom;description;fournisseur
                         self.createMateriel(nom = lineSplit[0],
                                             description = lineSplit[1],
-                                            fournisseur = lineSplit[2]
-                                            )
+                                            fournisseur = lineSplit[2])
                 print("Import materiels terminé.")
             else:
                 print("Fichier materiel non trouvé.")

@@ -3,6 +3,55 @@
 D4F_back/.env
 D4F_front/.env
 
-# optionnel, setting de vscode pour afficher le .git 
-#(optique d'apprentissag donc je veux voir le contenu)
+#vues d'anciens projets la pour décorer
+EquimentOrderOneView.vue
+FamilyInventoryView.vue
+
+# Python: bytecode, caches and compiled files
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Pytest cache
+.pytest_cache/
+
+# Mypy / cache
+.mypy_cache/
+.cache/
+
+# Coverage reports
+.coverage
+htmlcov/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node / frontend
+node_modules/
+D4F_front/node_modules/
+
+# Build / distribution
+dist/
+build/
+*.egg-info/
+
+# Editor directories and files
 .vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# C extensions / compiled binaries
+*.so
+
