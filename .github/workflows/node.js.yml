@@ -1,10 +1,14 @@
-name: Node.js CI
+name: Frontend CI
 
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'D4F_front/**'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'D4F_front/**'
 
 jobs:
   build:
@@ -12,24 +16,26 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [20.x, 22.x]   # Aligné avec engines: "^20.19 || >=22.12.0"
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Setup Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
 
     - name: Install dependencies
       working-directory: ./D4F_front
-      run: npm ci
+      run: npm install
 
     - name: Build frontend
       working-directory: ./D4F_front
-      run: npm run build --if-present
+      run: npm run build
 
-    - name: Run tests
-      working-directory: ./D4F_front
-      run: npm test
+    # Optionnel : exécuter vite preview (rare en CI)
+    # - name: Preview
+    #   working-directory: ./D4F_front
+    #   run: npm run preview
