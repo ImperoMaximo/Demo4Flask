@@ -9,6 +9,7 @@ on:
     branches: [ "main" ]
     paths:
       - 'D4F_front/**'
+  workflow_dispatch:  # ⬅️ permet de lancer manuellement dans l’UI
 
 jobs:
   build:
@@ -16,7 +17,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x, 22.x]   # Aligné avec engines: "^20.19 || >=22.12.0"
+        node-version: [20.x, 22.x]
 
     steps:
     - name: Checkout repository
@@ -34,8 +35,3 @@ jobs:
     - name: Build frontend
       working-directory: ./D4F_front
       run: npm run build
-
-    # Optionnel : exécuter vite preview (rare en CI)
-    # - name: Preview
-    #   working-directory: ./D4F_front
-    #   run: npm run preview
