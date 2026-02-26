@@ -24,13 +24,13 @@ jobs:
         cache: 'npm'
 
     - name: Install dependencies
-      working-directory: ./D4F-front
+      working-directory: ./D4F_front
       run: npm ci
 
     - name: Build frontend
-      working-directory: ./D4F-front
+      working-directory: ./D4F_front
       run: npm run build --if-present
 
     - name: Run tests
-      working-directory: ./D4F-front
+      working-directory: ./D4F_front
       run: npm test
