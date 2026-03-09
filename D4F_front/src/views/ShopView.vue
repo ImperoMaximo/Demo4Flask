@@ -86,6 +86,9 @@ import moment from "moment";
 
 export default {
   data() {
+    console.log("ShopView: using backend API base URL:", this.$back_api_base_url);
+    console.log("ShopView: articles API URL:", this.$back_api_base_url + "/all_materiel");
+    console.log("ShopView: single API URL:", this.$back_api_base_url + "/materiel/");
     return {
       articles: [],
       articles_api: this.$back_api_base_url + "/all_materiel",

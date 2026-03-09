@@ -21,6 +21,9 @@ spec:
         imagePullPolicy: Never  #pour utiliser l'image locale construite avec docker build
         ports:
         - containerPort: 5173
+        env:
+        - name: VITE_BACK_API_BASE_URL
+          value: "http://127.0.0.1:62232" # via minikube service backend-service --url
 
 --- #indique le debut d'un nouveau fichier yaml le service apres le deployment
 apiVersion: v1
