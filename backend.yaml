@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: d4f-back:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5000
+        env:
+        - name: FLASK_RUN_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: FLASK_RUN_PORT
+        - name: FLASK_db_host
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: FLASK_db_host
+        - name: FLASK_db_port
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: FLASK_db_port
+        - name: FLASK_db_name
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: FLASK_db_name
+        - name: FLASK_db_user
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secrets
+              key: FLASK_db_user
+        - name: FLASK_db_pass
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secrets
+              key: FLASK_db_pass
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000

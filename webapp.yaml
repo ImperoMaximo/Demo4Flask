@@ -1,0 +1,38 @@
+#deployment & service pour webapp front
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-deployment
+  labels:
+    app: webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp 
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - name: webapp
+        image: d4f-front:latest
+        imagePullPolicy: Never  #pour utiliser l'image locale construite avec docker build
+        ports:
+        - containerPort: 5173
+
+--- #indique le debut d'un nouveau fichier yaml le service apres le deployment
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service
+spec:
+  type: NodePort    #service externe, exposé publiquement
+  selector:
+    app: webapp
+  ports:
+    - protocol: TCP
+      port: 5173
+      targetPort: 5173
+      nodePort: 30001  # port accessible depuis l'extérieur
