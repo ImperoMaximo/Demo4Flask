@@ -1,4 +1,15 @@
-#deployment & service pour postgres db
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -6,7 +17,7 @@ metadata:
   labels:
     app: postgres
 spec:
-  replicas: 1 #1 pour une database
+  replicas: 1
   selector:
     matchLabels:
       app: postgres
@@ -24,7 +35,7 @@ spec:
         - name: POSTGRES_DB
           valueFrom:
             secretKeyRef:
-              name: postgres-secrets  # nom du Secret
+              name: postgres-secrets
               key: POSTGRES_DB
         - name: POSTGRES_USER
           valueFrom:
@@ -36,8 +47,15 @@ spec:
             secretKeyRef:
               name: postgres-secrets
               key: POSTGRES_PASSWORD
+        volumeMounts:                        # ← ajouter
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+      volumes:                               # ← ajouter (même niveau que containers)
+      - name: postgres-storage
+        persistentVolumeClaim:
+          claimName: postgres-pvc
 
---- #indique le debut d'un nouveau fichier yaml le service apres le deployment
+---
 apiVersion: v1
 kind: Service
 metadata:
