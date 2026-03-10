@@ -31,7 +31,7 @@
               <!-- Bouton Détails -->
               <v-btn variant="outlined" color="primary" @click="openDetail(item)">
                 Détails
-                <v-icon end>mdi-open-in-new</v-icon>
+                <v-icon :icon="mdiOpenInNew" end />
               </v-btn>
             </div>
           </template>
@@ -82,6 +82,7 @@
 </template>
 
 <script>
+import { mdiOpenInNew} from '@mdi/js'
 import moment from "moment";
 
 export default {
@@ -90,6 +91,7 @@ export default {
     console.log("ShopView: articles API URL:", this.$back_api_base_url + "/all_materiel");
     console.log("ShopView: single API URL:", this.$back_api_base_url + "/materiel/");
     return {
+      mdiOpenInNew,
       articles: [],
       articles_api: this.$back_api_base_url + "/all_materiel",
       single_api_base: this.$back_api_base_url + "/materiel/",
