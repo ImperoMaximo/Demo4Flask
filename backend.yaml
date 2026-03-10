@@ -24,32 +24,32 @@ spec:
         - name: FLASK_RUN_PORT
           valueFrom:
             configMapKeyRef:
-              name: postgres-config
+              name: d4f-config
               key: FLASK_RUN_PORT
         - name: FLASK_db_host
           valueFrom:
             configMapKeyRef:
-              name: postgres-config
+              name: d4f-config
               key: FLASK_db_host
         - name: FLASK_db_port
           valueFrom:
             configMapKeyRef:
-              name: postgres-config
+              name: d4f-config
               key: FLASK_db_port
         - name: FLASK_db_name
           valueFrom:
             configMapKeyRef:
-              name: postgres-config
+              name: d4f-config
               key: FLASK_db_name
         - name: FLASK_db_user
           valueFrom:
             secretKeyRef:
-              name: postgres-secrets
+              name: d4f-secrets
               key: FLASK_db_user
         - name: FLASK_db_pass
           valueFrom:
             secretKeyRef:
-              name: postgres-secrets
+              name: d4f-secrets
               key: FLASK_db_pass
 
 ---
