@@ -55,3 +55,5 @@ build/
 # C extensions / compiled binaries
 *.so
 
+*secret*  # Ignore any file with "secret" in its name, in the root directory
+*/*secret*.*  # Ignore any file with "secret" in its name, in any subdirectory
