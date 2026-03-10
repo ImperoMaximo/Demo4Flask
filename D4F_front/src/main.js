@@ -11,8 +11,8 @@ import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 
-// (Optionnel) icônes en SVG pour éviter @mdi/font
-import { aliases, mdi } from 'vuetify/iconsets/mdi-svg'
+import '@mdi/font/css/materialdesignicons.css'            
+import { aliases, mdi } from 'vuetify/iconsets/mdi'
 
 const vuetify = createVuetify({
   components,
@@ -32,9 +32,9 @@ app.use(vuetify)
 
 // Expose backend base URL from Vite env to components as `$back_api_base_url`
 console.log(`Using backend API base URL: ${import.meta.env.VITE_BACK_API_BASE_URL}`)
-// créer env afin de choisir si run local, dockerisée ou clusterisée -> local + docker fonctionnel avec cette ligne
+// fallback mais pas vraiment utile sauf en local
 const BACK_API = import.meta.env.VITE_BACK_API_BASE_URL || 'http://127.0.0.1:5000'
-// autre ligne pour clusterisée : const BACK_API à variabiliser
+
 app.config.globalProperties.$back_api_base_url = BACK_API
 
 app.mount('#app')
