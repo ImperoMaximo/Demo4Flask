@@ -13,12 +13,12 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: webapp-service
+            name: frontend-service
             port:
               number: 4173
 
 ---
-# ingress pour le back (avec rewrite)
+# ingress pour le back (avec rewrite) car flask prends les liens /routes et pas /backend/routes (nécessité de tout rewrite dans le backend alors que la ca change pas le code)
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
