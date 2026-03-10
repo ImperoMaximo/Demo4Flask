@@ -57,3 +57,4 @@ build/
 
 # Ignore files containing "secret" in the name
 *secret*
+*tls*

@@ -5,6 +5,10 @@ metadata:
   name: d4f-ingress-front
 spec:
   ingressClassName: nginx
+  tls:
+  - hosts:
+    - d4f.local
+    secretName: d4f-secrets-tls
   rules:
   - host: d4f.local
     http:
@@ -27,6 +31,10 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: nginx
+  tls:
+  - hosts:
+    - d4f.local
+    secretName: d4f-secrets-tls
   rules:
   - host: d4f.local
     http:

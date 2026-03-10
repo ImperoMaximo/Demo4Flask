@@ -1,0 +1,8 @@
+To generate a local certificate.
+
+openssl req -x509 -nodes -days 365 -newkey rsa:2048   -keyout tls.key   -out tls.crt   -subj "//CN=d4f.local"
+kubectl create secret tls d4f-secrets-tls   --cert=tls.crt   --key=tls.key
+# check
+kubectl get secret d4f-secrets-tls
+# apply
+kubectl apply -f ingress.yaml
