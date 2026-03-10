@@ -20,10 +20,10 @@ spec:
         image: d4f-front:latest
         imagePullPolicy: Never  #pour utiliser l'image locale construite avec docker build
         ports:
-        - containerPort: 5173
-        env:
-        - name: VITE_BACK_API_BASE_URL
-          value: "http://127.0.0.1:62232" # via minikube service backend-service --url
+        - containerPort: 4173
+        # env:
+        # - name: VITE_BACK_API_BASE_URL
+        #   value: "http://d4f.local/backend" # via minikube service backend-service --url
 
 --- #indique le debut d'un nouveau fichier yaml le service apres le deployment
 apiVersion: v1
@@ -36,6 +36,6 @@ spec:
     app: webapp
   ports:
     - protocol: TCP
-      port: 5173
-      targetPort: 5173
+      port: 4173
+      targetPort: 4173
       nodePort: 30001  # port accessible depuis l'extérieur

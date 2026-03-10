@@ -9,6 +9,10 @@ RUN npm install
 
 COPY D4F_front/ .
 
-EXPOSE 5173
+ENV VITE_BACK_API_BASE_URL="http://d4f.local/backend"
 
-CMD ["npm", "run", "dev", "--", "--host"]
+RUN npm run build
+
+EXPOSE 4173
+
+CMD ["npm", "run", "preview", "--", "--host"]
