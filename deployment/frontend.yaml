@@ -31,7 +31,6 @@ kind: Service
 metadata:
   name: frontend-service
 spec:
-  type: NodePort    #service externe, exposé publiquement
   selector:
     app: frontend
   ports:

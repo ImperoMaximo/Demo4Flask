@@ -9,7 +9,7 @@ RUN npm install
 
 COPY D4F_front/ .
 
-ENV VITE_BACK_API_BASE_URL="http://d4f.local/backend"
+ENV VITE_BACK_API_BASE_URL="https://d4f.local/backend"
 
 RUN npm run build
 
