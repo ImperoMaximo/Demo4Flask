@@ -38,4 +38,3 @@ spec:
     - protocol: TCP
       port: 4173
       targetPort: 4173
-      nodePort: 30001  # port accessible depuis l'extérieur
