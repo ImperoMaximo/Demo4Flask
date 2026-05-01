@@ -63,13 +63,13 @@ def hello_world():
 @app.route("/init_db")
 def init_db():      # initialisation de la db
     flaskSqlAlchemyUtils.init_db()
-    return f"DB initialized, Backend D4F running on dev environement"
+    return f"DB initialized, Backend D4F running on dev/prod environement"
 
 @app.route("/update_db")
 def update_db():    # initialisation de la db
     flaskSqlAlchemyUtils.update_db_with_new_element()
     materiel_service.import_materiels_from_csv('materiel.csv')
-    return f"DB updated, Backend D4F running on dev environement"
+    return f"DB updated, Backend D4F running on dev/prod environement"
 
 # api rest pour les autres -> juste manipuler des json
 

@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: maximenubo/demo4flask:back-lts
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        env:
+        - name: FLASK_RUN_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: d4f-config
+              key: FLASK_RUN_PORT
+        - name: FLASK_db_host
+          valueFrom:
+            configMapKeyRef:
+              name: d4f-config
+              key: FLASK_db_host
+        - name: FLASK_db_port
+          valueFrom:
+            configMapKeyRef:
+              name: d4f-config
+              key: FLASK_db_port
+        - name: FLASK_db_name
+          valueFrom:
+            configMapKeyRef:
+              name: d4f-config
+              key: FLASK_db_name
+        - name: FLASK_db_user
+          valueFrom:
+            secretKeyRef:
+              name: d4f-secrets
+              key: FLASK_db_user
+        - name: FLASK_db_pass
+          valueFrom:
+            secretKeyRef:
+              name: d4f-secrets
+              key: FLASK_db_pass
+      imagePullSecrets:              # ← ajouter au même niveau que containers
+      - name: dockerhub-secret
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  type: NodePort
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 5000
+      nodePort: 31000
+      targetPort: 5000

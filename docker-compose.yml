@@ -1,0 +1,41 @@
+services:
+
+  frontend:
+    build:
+      context: .
+      dockerfile: D4F_front/Dockerfile
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: .
+      dockerfile: D4F_back/Dockerfile
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    depends_on:
+      database:
+        condition: service_healthy
+
+  database:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: d4f_db
+      POSTGRES_USER: d4f_user
+      POSTGRES_PASSWORD: d4f_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U d4f_user -d d4f_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

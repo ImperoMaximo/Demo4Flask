@@ -1,0 +1,48 @@
+# ingress pour le front (sans rewrite)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: d4f-ingress-front
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - d4f.local
+    secretName: d4f-secrets-tls
+  rules:
+  - host: d4f.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend-service
+            port:
+              number: 4173
+
+---
+# ingress pour le back (avec rewrite) car flask prends les liens /routes et pas /backend/routes (nécessité de tout rewrite dans le backend alors que la ca change pas le code)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: d4f-ingress-back
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - d4f.local
+    secretName: d4f-secrets-tls
+  rules:
+  - host: d4f.local
+    http:
+      paths:
+      - path: /backend(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: backend-service
+            port:
+              number: 5000

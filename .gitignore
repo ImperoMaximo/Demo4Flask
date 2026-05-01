@@ -55,3 +55,7 @@ build/
 # C extensions / compiled binaries
 *.so
 
+# Ignore files containing "secret" in the name
+*secret*
+*tls*
+deployment/*docker*

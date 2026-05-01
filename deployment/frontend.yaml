@@ -1,0 +1,40 @@
+#deployment & service pour front
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend 
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: maximenubo/demo4flask:front-lts
+        imagePullPolicy: Always  #pour utiliser l'image locale construite avec docker build
+        ports:
+        - containerPort: 4173
+      imagePullSecrets:              # ← ajouter au même niveau que containers
+      - name: dockerhub-secret
+
+--- #indique le debut d'un nouveau fichier yaml le service apres le deployment
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  type: NodePort
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 4173
+      targetPort: 4173
+      nodePort: 31730
